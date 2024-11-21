@@ -7,6 +7,8 @@ public class AvatarController : MonoBehaviour
     public float moveSpeed = 5f; // 移動速度
     public float rotationSpeed = 300f; // 回転速度
 
+    private Vector3 moveDirection;
+
     void Update()
     {
          // 矢印キーでの移動処理
@@ -29,5 +31,10 @@ public class AvatarController : MonoBehaviour
             transform.Rotate(Vector3.up, mouseX * rotationSpeed * Time.deltaTime); // Y軸で回転
         }
         
+    }
+
+    public Vector3 GetMoveDirection()
+    {
+        return moveDirection;
     }
 }
