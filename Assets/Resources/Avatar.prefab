@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4479988709058528989}
   - component: {fileID: 2603996862354124998}
   - component: {fileID: 6216181135777234165}
-  - component: {fileID: -4324897821856542634}
+  - component: {fileID: -1192305228844081677}
   - component: {fileID: 6852018475861215354}
   - component: {fileID: -9124719510716779505}
   m_Layer: 0
   m_Name: Avatar
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-4324897821856542634
+--- !u!114 &-1192305228844081677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,9 +145,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3027452683471922017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d3e75fb51a5ad44494e7c34c222fbe3, type: 3}
+  m_Script: {fileID: 11500000, guid: a33b14dd95b41a04897fa0bda07b4fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rotationSpeed: 300
 --- !u!114 &6852018475861215354
 MonoBehaviour:
   m_ObjectHideFlags: 0
