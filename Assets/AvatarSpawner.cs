@@ -2,7 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class MyPUN_Set : MonoBehaviourPunCallbacks
+public class AvatarSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject networkPlayer;
