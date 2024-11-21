@@ -156,7 +156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkPlayer: {fileID: 3027452683471922017, guid: 1ddfcfa1f02d17d4fa14b98c3d9703ee, type: 3}
   cameraRig: {fileID: 0}
-  playerPositions: []
+  playerPositions:
+  - {fileID: 452739836}
 --- !u!136 &452739833
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -439,7 +440,7 @@ Transform:
   m_GameObject: {fileID: 936173383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 4, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []

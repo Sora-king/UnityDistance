@@ -2,7 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class AvatarSpawner : MonoBehaviourPunCallbacks
+public class MyPUN_Set : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject networkPlayer;
@@ -11,27 +11,41 @@ public class AvatarSpawner : MonoBehaviourPunCallbacks
     Transform cameraRig;
 
     [SerializeField]
-    Transform[] playerPositions; // 配列に全プレイヤーの位置情報を保持
+    Transform[] playerPositions;
 
     GameObject player;
 
     void Start()
     {
-        // Photonサーバーに接続
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonServerSettingsに設定した内容を使ってマスターサーバーへ接続する
+        PhotonNetwork.ConnectUsingSettings();     
     }
 
-    // マスターサーバーへの接続が成功した時に呼ばれるコールバック
-    public override void OnConnectedToMaster() {
-        // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
+    //マスターサーバーへの接続が成功した時に呼ばれるコールバック
+    public override void OnConnectedToMaster()
+    {
+        // "OnoTest"という名前のルームに参加する（ルームが無ければ作成してから参加する）
+        PhotonNetwork.JoinOrCreateRoom("OnoTest", new RoomOptions(), TypedLobby.Default);
+        print("ルーム作成完了");
     }
 
-    // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
-    public override void OnJoinedRoom() {
-        // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
-        var position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate(networkPlayer.name, position, Quaternion.identity);
+    //部屋に入ったらアバター生成
+    public override void OnJoinedRoom()
+    {
+        int othersCount = PhotonNetwork.PlayerListOthers.Length;
+        GameObject spawnedPlayer = PhotonNetwork.Instantiate(networkPlayer.name, playerPositions[othersCount].position, Quaternion.identity);
+        cameraRig = spawnedPlayer.GetComponentInChildren<Camera>().transform;
+
+        if (cameraRig != null)
+        {
+            // カメラリグの位置をスポーン位置に設定
+            cameraRig.position = playerPositions[othersCount].position;
+            Debug.Log("CameraRig position set successfully.");
+        }
+        else
+        {
+            Debug.LogError("CameraRig could not be found in the spawned player.");
+        }
+        //cameraRig.position = playerPositions[othersCount].position;
     }
 }
-
