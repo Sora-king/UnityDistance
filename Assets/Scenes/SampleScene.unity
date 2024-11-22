@@ -565,6 +565,7 @@ GameObject:
   - component: {fileID: 1757452982}
   - component: {fileID: 1757452984}
   - component: {fileID: 1757452983}
+  - component: {fileID: 1757452985}
   m_Layer: 0
   m_Name: Spawner1
   m_TagString: Untagged
@@ -699,6 +700,22 @@ MonoBehaviour:
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
   recordWhenJoined: 1
+--- !u!114 &1757452985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757452978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b928e01296e45174486680c7ad502e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAvatar: {fileID: 0}
+  angleThreshold: 30
+  defaultVolume: 0.75
+  maxVolume: 1
 --- !u!1 &2127341414
 GameObject:
   m_ObjectHideFlags: 0

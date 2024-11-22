@@ -24,6 +24,8 @@ public class AvatarSpawner : MonoBehaviourPunCallbacks
         Vector3 spawnPosition = spawnPoints[playerIndex % spawnPoints.Length].position;
 
         // アバターを生成
-        PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
+        GameObject avatar = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
+        // 自分のアバターを TagObject に設定
+        PhotonNetwork.LocalPlayer.TagObject = avatar;
     }
 }
