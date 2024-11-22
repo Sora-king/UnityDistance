@@ -27,5 +27,6 @@ public class AvatarSpawner : MonoBehaviourPunCallbacks
         GameObject avatar = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
         // 自分のアバターを TagObject に設定
         PhotonNetwork.LocalPlayer.TagObject = avatar;
+        Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber}'s TagObject set to {avatar.name}");
     }
 }

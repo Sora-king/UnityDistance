@@ -40,13 +40,15 @@ public class DirectionalAudioManager : MonoBehaviourPunCallbacks
 
         foreach (var target in otherPlayers)
         {
+            Debug.Log("チェックポイント2");
             AdjustVolume(target); // 他プレイヤーのアバターに対して音量を調整
         }
     }
 
     void AdjustVolume(Transform target)
     {
-        if (target == null || myAvatar == null) return;
+
+        if (target == null || myAvatar == null) return;    
 
         Vector3 directionToTarget = (target.position - myAvatar.position).normalized;
         float angle = Vector3.Angle(myAvatar.forward, directionToTarget);
@@ -58,6 +60,32 @@ public class DirectionalAudioManager : MonoBehaviourPunCallbacks
         }
     }
 
+    /*public void UpdateAvatarList()
+    {
+        otherPlayers.Clear();
+
+        var playerListCopy = PhotonNetwork.PlayerListOthers.ToList();
+
+        foreach (Player player in playerListCopy)
+        {
+            Debug.Log($"チェックポイント1: Checking TagObject for Player {player.ActorNumber}");
+
+            // プレイヤーの TagObject が設定されているか確認
+            if (player.TagObject is GameObject avatar)
+            {
+                otherPlayers.Add(avatar.transform);
+                Debug.Log($"Player {player.ActorNumber}'s avatar added to otherPlayers.");
+            }
+            else
+            {
+                Debug.LogWarning($"チェックポイント2: Player {player.ActorNumber} has no TagObject.");
+                StartCoroutine(WaitForPlayerTagObject(player)); // TagObject が設定されるまで待機
+            }
+        }
+
+        Debug.Log($"Updated avatar list. Other player count: {otherPlayers.Count}");
+    }*/
+
     public void UpdateAvatarList()
     {
         otherPlayers.Clear();
@@ -66,13 +94,39 @@ public class DirectionalAudioManager : MonoBehaviourPunCallbacks
 
         foreach (Player player in playerListCopy)
         {
+            if (player.TagObject != null)
+            {
+                Debug.Log($"Player {player.ActorNumber} has TagObject: {player.TagObject}");
+            }
+            else
+            {
+                Debug.LogWarning($"Player {player.ActorNumber} has no TagObject.");
+            }
+
             if (player.TagObject is GameObject avatar)
             {
                 otherPlayers.Add(avatar.transform);
+                Debug.Log($"Player {player.ActorNumber}'s avatar added to otherPlayers.");
             }
         }
 
-        Debug.Log($"Updated avatar list using ToList. Other player count: {otherPlayers.Count}");
+        Debug.Log($"Updated avatar list. Other player count: {otherPlayers.Count}");
+    }
+
+    private IEnumerator WaitForPlayerTagObject(Player player)
+    {
+        while (player.TagObject == null)
+        {
+            Debug.Log($"Waiting for TagObject of Player {player.ActorNumber}");
+            yield return null; // 次のフレームまで待機
+        }
+
+        if (player.TagObject is GameObject avatar)
+        {
+            Debug.Log("チェックポイント3");
+            otherPlayers.Add(avatar.transform);
+            Debug.Log($"Player {player.ActorNumber}'s TagObject has been set and added to otherPlayers.");
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
