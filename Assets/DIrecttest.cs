@@ -110,7 +110,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
             if (audioSource != null)
             {
                 audioSource.volume = angle <= angleThreshold ? maxVolume : defaultVolume;
-                Debug.Log($"【デバッグ】AudioSourceの音量を変更しました: {audioSource.volume}");
+                //Debug.Log($"【デバッグ】AudioSourceの音量を変更しました: {audioSource.volume}");
             }
             else
             {

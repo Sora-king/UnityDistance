@@ -1,17 +1,21 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using System.Collections.Generic;
-using ExitGames.Client.Photon;
+using System.Collections;
+using Photon.Voice.Unity;
 
-public class GroupFormationManager : MonoBehaviourPunCallbacks
+
+public class GroupFormationManager2 : MonoBehaviourPunCallbacks
 {
-    public float clusteringDistance = 10f; // 特定のプレイヤーからの距離閾値
-    private const string GROUP_KEY = "Groups"; // ルームカスタムプロパティのキー
+    private const string GROUP_KEY = "Groups";
+    public float clusteringDistance = 10f;
+
+    private int groupCounter = 0; // グループ名のカウンター
+    private List<string> groupNames = new List<string>(); // グループ名リスト
 
     void Update()
     {
-        // 特定のプレイヤー（マスタークライアント）がグループ化を開始
         if (Input.GetKeyDown(KeyCode.T))
         {
             FormAndShareGroups();
@@ -20,10 +24,9 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
 
     void FormAndShareGroups()
     {
-        List<int> groupIds = new List<int>(); // 同じグループのプレイヤーのIDを保持
-        Hashtable allGroups = new Hashtable(); // 全グループ情報
+        List<int> groupIds = new List<int>();
+        Hashtable allGroups = new Hashtable();
 
-        // 特定のプレイヤーをマスタークライアントとする
         Player masterPlayer = PhotonNetwork.MasterClient;
         Transform masterAvatarTransform = FindAvatarTransformByPlayer(masterPlayer);
 
@@ -31,7 +34,6 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
         {
             Vector3 masterPosition = masterAvatarTransform.position;
 
-            // 他のプレイヤーとの距離を計算
             foreach (var player in PhotonNetwork.PlayerList)
             {
                 if (player != masterPlayer)
@@ -42,20 +44,23 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
                         float distance = Vector3.Distance(masterPosition, avatarTransform.position);
                         if (distance <= clusteringDistance)
                         {
-                            groupIds.Add(player.ActorNumber); // 距離が閾値以下のプレイヤーをグループに追加
+                            groupIds.Add(player.ActorNumber);
                         }
                     }
                 }
             }
 
-            // マスター自身をグループに追加
             groupIds.Add(masterPlayer.ActorNumber);
 
-            // グループ情報をルームプロパティに保存
-            allGroups[masterPlayer.ActorNumber] = groupIds.ToArray();
+            // グループ名の生成
+            string groupName = $"グループ{(char)('A' + groupCounter)}";
+            groupCounter++;
+            groupNames.Add(groupName);
+
+            allGroups[groupName] = groupIds.ToArray();
             PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { GROUP_KEY, allGroups } });
 
-            Debug.Log("【デバッグ】グループ情報をルームカスタムプロパティに保存しました。");
+            Debug.Log($"【デバッグ】グループ情報を保存しました: {groupName}");
         }
     }
 
@@ -64,19 +69,19 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey(GROUP_KEY))
         {
             Hashtable allGroups = (Hashtable)propertiesThatChanged[GROUP_KEY];
-            if (allGroups.ContainsKey(PhotonNetwork.MasterClient.ActorNumber))
+            foreach (DictionaryEntry entry in allGroups)
             {
-                int[] group = (int[])allGroups[PhotonNetwork.MasterClient.ActorNumber];
-                ArrangeInCircle(group);
+                string groupName = (string)entry.Key;
+                int[] group = (int[])entry.Value;
+                ArrangeInCircle(group, groupName);
             }
         }
     }
 
-    void ArrangeInCircle(int[] group)
+    void ArrangeInCircle(int[] group, string groupName)
     {
         List<Transform> groupPlayers = new List<Transform>();
 
-        // グループメンバーを収集し、IDの小さい順にソート
         List<int> sortedGroup = new List<int>(group);
         sortedGroup.Sort();
 
@@ -89,7 +94,7 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
                 if (avatarTransform != null)
                 {
                     groupPlayers.Add(avatarTransform);
-                    Debug.Log($"【デバッグ】{player.NickName}のアバターが配置対象に追加されました。");
+                    Debug.Log($"【デバッグ】{player.NickName}のアバターを配置対象に追加しました: {groupName}");
                 }
                 else
                 {
@@ -98,7 +103,6 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
             }
         }
 
-        // グループの中心をマスターの位置に設定
         Vector3 center = Vector3.zero;
         Transform masterAvatarTransform = FindAvatarTransformByPlayer(PhotonNetwork.MasterClient);
         if (masterAvatarTransform != null)
@@ -106,29 +110,28 @@ public class GroupFormationManager : MonoBehaviourPunCallbacks
             center = masterAvatarTransform.position;
         }
 
-        // グループ人数に応じて円の半径を動的に計算
         float dynamicRadius = Mathf.Max(5f, groupPlayers.Count * 1.5f);
-
-        // 円形に配置
         float angleStep = 360f / groupPlayers.Count;
+
+        GroupVisualizer visualizer = FindObjectOfType<GroupVisualizer>();
+
         for (int i = 0; i < groupPlayers.Count; i++)
         {
-            // 配置する角度を計算
             float angle = i * angleStep * Mathf.Deg2Rad;
-
-            // 円上の位置を計算
             Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * dynamicRadius;
             Vector3 targetPosition = center + offset;
 
-            // RPCで他のクライアントの位置を移動
             photonView.RPC("RPCMoveAvatar", RpcTarget.All, groupPlayers[i].GetComponent<PhotonView>().ViewID, targetPosition);
 
-            // プレイヤーを円の中心に向ける
             Vector3 directionToCenter = center - targetPosition;
             groupPlayers[i].rotation = Quaternion.LookRotation(new Vector3(directionToCenter.x, 0, directionToCenter.z));
         }
 
-        Debug.Log("【デバッグ】グループメンバーを円形に配置しました。");
+        // グループを可視化
+        Color groupColor = Random.ColorHSV();
+        visualizer.VisualizeGroup(center, dynamicRadius, groupName, groupColor);
+
+        Debug.Log($"【デバッグ】{groupName}を円形に配置しました。");
     }
 
     [PunRPC]

@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: -8043046239509015194}
   - component: {fileID: 3559696632448726709}
   - component: {fileID: 7893173337585476316}
+  - component: {fileID: 410873658475797925}
+  - component: {fileID: -4611193539198054791}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Player
@@ -215,7 +217,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -318,3 +320,32 @@ MonoBehaviour:
     Max: 1000
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
+--- !u!114 &410873658475797925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027452683471922017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622bbfca9a604d24da4eaf4b466bffe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAvatar: {fileID: 0}
+  angleThreshold: 30
+  defaultVolume: 0
+  maxVolume: 1
+--- !u!114 &-4611193539198054791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027452683471922017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e20953aff2b1e448435ed560d7e85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clusteringDistance: 10
