@@ -2103,6 +2103,7 @@ GameObject:
   - component: {fileID: 1757452984}
   - component: {fileID: 1757452983}
   - component: {fileID: 1757452985}
+  - component: {fileID: 1757452986}
   m_Layer: 0
   m_Name: Spawner1
   m_TagString: Untagged
@@ -2249,6 +2250,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92172767ca59f2740909a84a83f0ef6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1757452986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757452978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b0d2dc06ead5c4ab0c17d0cb12c388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatarTransforms: []
+  avatarNames: []
 --- !u!1 &1818919546
 GameObject:
   m_ObjectHideFlags: 0
