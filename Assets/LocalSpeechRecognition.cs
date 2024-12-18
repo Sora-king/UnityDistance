@@ -49,7 +49,7 @@ public class LocalSpeechRecognition : MonoBehaviour
 
     private void HighlightAvatar(Transform avatarTransform)
     {
-        // アバターをハイライトする例（色を変更）
+        // アバターをハイライトする（色を変更）
         Renderer renderer = avatarTransform.GetComponent<Renderer>();
         if (renderer != null)
         {

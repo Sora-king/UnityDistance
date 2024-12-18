@@ -494,7 +494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -400, y: -57}
+  m_AnchoredPosition: {x: -400, y: -50}
   m_SizeDelta: {x: -1720, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &408744562
@@ -806,8 +806,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 300}
-  m_SizeDelta: {x: -1420, y: -1564}
+  m_AnchoredPosition: {x: 0, y: 297.5}
+  m_SizeDelta: {x: -1420, y: -935}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &549434834
 MonoBehaviour:
@@ -1379,7 +1379,7 @@ GameObject:
   - component: {fileID: 986090724}
   - component: {fileID: 986090723}
   - component: {fileID: 986090722}
-  - component: {fileID: 986090726}
+  - component: {fileID: 986090728}
   - component: {fileID: 986090727}
   m_Layer: 5
   m_Name: Canvas
@@ -1473,21 +1473,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &986090726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986090721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf737dd899988494aaea5efd961d5386, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handRaiseButton: {fileID: 1264581260}
-  handRaiseDisplay: {fileID: 785544573}
-  displayBackground: {fileID: 1556103380}
 --- !u!114 &986090727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,6 +1486,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameDisplayText: {fileID: 2073236725}
+--- !u!114 &986090728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986090721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065aa71859eb76b4886a0bd42b5fbe60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handRaiseButton: {fileID: 1264581260}
+  handRaiseDisplay: {fileID: 785544573}
+  displayBackground: {fileID: 1556103380}
 --- !u!1 &1006041935
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ Transform:
   m_GameObject: {fileID: 1641063149}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.75, y: 7.13, z: -20.24}
+  m_LocalPosition: {x: 0.09, y: 7.13, z: -11.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2100,10 +2100,10 @@ GameObject:
   - component: {fileID: 1757452980}
   - component: {fileID: 1757452981}
   - component: {fileID: 1757452982}
-  - component: {fileID: 1757452984}
-  - component: {fileID: 1757452983}
   - component: {fileID: 1757452985}
+  - component: {fileID: 1757452987}
   - component: {fileID: 1757452986}
+  - component: {fileID: 1757452988}
   m_Layer: 0
   m_Name: Spawner1
   m_TagString: Untagged
@@ -2154,7 +2154,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2081202de4f880545888d15e82743c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1757452983
+--- !u!114 &1757452985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757452978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92172767ca59f2740909a84a83f0ef6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1757452986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757452978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceDetection: 0
+  voiceDetectionThreshold: 0.01
+  voiceDetectionDelayMs: 500
+  interestGroup: 0
+  useTargetPlayers: 0
+  targetPlayers: 
+  debugEchoMode: 0
+  reliableMode: 0
+  encrypt: 0
+  transmitEnabled: 1
+  samplingRate: 48000
+  frameDuration: 20000
+  bitrate: 30000
+  sourceType: 0
+  microphoneType: 0
+  audioClip: {fileID: 0}
+  loopAudioClip: 1
+  recordingEnabled: 1
+  audioSessionParameters:
+    Category: 4
+    Mode: 1
+    CategoryOptions: 0800000004000000
+  editorAudioSessionPreset: 1
+  androidMicrophoneSettings:
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
+  stopRecordingWhenPaused: 0
+  useOnAudioFilterRead: 0
+  useMicrophoneTypeFallback: 1
+  recordWhenJoined: 1
+--- !u!114 &1757452987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2171,8 +2226,8 @@ MonoBehaviour:
   ApplyDontDestroyOnLoad: 1
   runInBackground: 1
   statsResetInterval: 1000
-  speakerPrefab: {fileID: 0}
-  primaryRecorder: {fileID: 1757452984}
+  speakerPrefab: {fileID: 3027452683471922017, guid: 1ddfcfa1f02d17d4fa14b98c3d9703ee, type: 3}
+  primaryRecorder: {fileID: 1757452986}
   usePrimaryRecorder: 0
   cppCompatibilityMode: 0
   Settings:
@@ -2195,7 +2250,7 @@ MonoBehaviour:
   AutoConnectAndJoin: 1
   usePunAppSettings: 1
   usePunAuthValues: 1
---- !u!114 &1757452984
+--- !u!114 &1757452988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2204,66 +2259,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1757452978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ddec46cf6a4c4addbf21b6be8442124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceDetection: 0
-  voiceDetectionThreshold: 0.01
-  voiceDetectionDelayMs: 500
-  interestGroup: 0
-  useTargetPlayers: 0
-  targetPlayers: 
-  debugEchoMode: 0
-  reliableMode: 0
-  encrypt: 0
-  transmitEnabled: 1
-  samplingRate: 24000
-  frameDuration: 20000
-  bitrate: 30000
-  sourceType: 0
-  microphoneType: 0
-  audioClip: {fileID: 0}
-  loopAudioClip: 1
-  recordingEnabled: 1
-  audioSessionParameters:
-    Category: 4
-    Mode: 1
-    CategoryOptions: 0800000004000000
-  editorAudioSessionPreset: 1
-  androidMicrophoneSettings:
-    EnableAEC: 1
-    EnableAGC: 1
-    EnableNS: 1
-  stopRecordingWhenPaused: 0
-  useOnAudioFilterRead: 0
-  useMicrophoneTypeFallback: 1
-  recordWhenJoined: 1
---- !u!114 &1757452985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757452978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92172767ca59f2740909a84a83f0ef6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1757452986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757452978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b0d2dc06ead5c4ab0c17d0cb12c388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatarTransforms: []
-  avatarNames: []
+  aec: 1
+  aecHighPass: 0
+  agc: 1
+  agcCompressionGain: 9
+  agcTargetLevel: 3
+  vad: 1
+  highPass: 0
+  noiseSuppression: 1
+  reverseStreamDelayMs: 120
 --- !u!1 &1818919546
 GameObject:
   m_ObjectHideFlags: 0
@@ -2303,7 +2310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: "\u540D\u524D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u2026"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c81c36d5ec4afe468f37bae9a964d82, type: 2}
   m_sharedMaterial: {fileID: 2210112879390051973, guid: 2c81c36d5ec4afe468f37bae9a964d82, type: 2}
@@ -2330,15 +2337,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
