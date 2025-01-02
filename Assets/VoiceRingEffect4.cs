@@ -25,29 +25,85 @@ public class VoiceRingEffect4 : MonoBehaviourPun
     void OnMouseDown()
     {
             // RPCを対象のアバターだけに送信
-            photonView.RPC("StartGeneratingRings", photonView.Owner);
+            Debug.Log($"[RPC送信] StartGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
+            //PhotonView local_photonview = GetPhotonViewByPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+            photonView.RPC("StartGeneratingRings", RpcTarget.Others, photonView.Owner.ActorNumber);
+
     }
 
     void OnMouseUp()
     {
             // RPCを対象のアバターだけに送信
-            photonView.RPC("StopGeneratingRings", photonView.Owner);
+            Debug.Log($"[RPC送信] StopGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
+            photonView.RPC("StopGeneratingRings", RpcTarget.Others, photonView.Owner.ActorNumber);
     }
+
+/*
+    // 指定したプレイヤーのPhotonViewを取得するメソッド
+    private PhotonView GetPhotonViewByPlayer(int targetPlayerId)
+    {
+        // すべてのPhotonViewを検索
+        PhotonView[] allPhotonViews = FindObjectsOfType<PhotonView>();
+
+        foreach (PhotonView view in allPhotonViews)
+        {
+            // PhotonViewのオーナーが指定したプレイヤーIDと一致するか確認
+            if (view.Owner != null && view.Owner.ActorNumber == targetPlayerId)
+            {
+                return view; // 一致したPhotonViewを返す
+            }
+        }
+
+        Debug.LogWarning($"プレイヤーID {targetPlayerId} に対応するPhotonViewが見つかりませんでした。");
+        return null;
+    */
+
+/*
+    [PunRPC]
+    public void FirstRPC(int targetId, string rpc_name, PhotonMessageInfo info)
+    {
+        
+        // 自分のアバターのみ処理を継続
+        if (!photonView.IsMine)
+        {
+            Debug.Log($"[FirstRPC受信] 自分のアバターではないためスキップ (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetId})");
+            return;
+        }
+
+        if (photonView.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log($"[StartGeneratingRings受信] 処理をスキップ (ターゲットID: {photonView.Owner.ActorNumber}, 自分のID: {PhotonNetwork.LocalPlayer.ActorNumber})");
+            return;
+        }
+
+        // 自分が操作しているアバターの場合、2つ目のRPCを送信
+        Debug.Log($"リング生成開始 (Photonview.ownerid: {photonView.Owner.ActorNumber}");
+        photonView.RPC(rpc_name, photonView.Owner, targetId);
+    }
+*/
 
     /// <summary>
     /// RPC: リング生成開始
     /// </summary>
     [PunRPC]
-    public void StartGeneratingRings(PhotonMessageInfo info)
+    public void StartGeneratingRings(int targetID, PhotonMessageInfo info)
     {
         // IDが一致しない場合は終了
-        avatarID = photonView.Owner.ActorNumber;
-        if (avatarID != info.Sender.ActorNumber)
+        if (targetID != PhotonNetwork.LocalPlayer.ActorNumber)
         {
+            Debug.Log($"[RPC受信] StartGeneratingRingsを受信しましたが、ターゲットIDが一致しないため処理をスキップしました (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetID})");
             return;
         }
 
-        Debug.Log($"リング生成開始 (送信元: {info.Sender.NickName}, アバターID: {info.Sender.ActorNumber})");
+         // 送信元がオブジェクトの所有者でない場合はスキップ
+        if (photonView.Owner.ActorNumber != info.Sender.ActorNumber)
+        {
+            Debug.LogWarning($"[FirstRPC] 送信元がこのオブジェクトの所有者ではありません (photonView.Owner: {photonView.Owner.ActorNumber}, info.Sender: {info.Sender.ActorNumber})");
+            return;
+        }
+
+        Debug.Log($"[RPC受信] StartGeneratingRingsを受信 (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetID})");
+        Debug.Log($"リング生成開始 (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetID})");
         isGeneratingRings = true;
         StartCoroutine(GenerateRingsContinuously());
     }
@@ -62,6 +118,13 @@ public class VoiceRingEffect4 : MonoBehaviourPun
         avatarID = photonView.Owner.ActorNumber;
         if (avatarID != info.Sender.ActorNumber)
         {
+            return;
+        }
+
+        // 送信元がオブジェクトの所有者でない場合はスキップ
+        if (photonView.Owner.ActorNumber != info.Sender.ActorNumber)
+        {
+            Debug.LogWarning($"[FirstRPC] 送信元がこのオブジェクトの所有者ではありません (photonView.Owner: {photonView.Owner.ActorNumber}, info.Sender: {info.Sender.ActorNumber})");
             return;
         }
 
