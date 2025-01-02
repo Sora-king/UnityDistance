@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Photon.Pun;
 
-public class VoiceRingEffect3 : MonoBehaviour
+public class VoiceRingEffect4 : MonoBehaviourPun
 {
     [Header("リングエフェクト設定")]
     public GameObject ringPrefab; // リングプレハブ
@@ -16,32 +17,55 @@ public class VoiceRingEffect3 : MonoBehaviour
     public Transform ringSpawnPoint; // リング生成位置
     public Transform avatarTransform; // アバターのTransform
 
-    private bool isGeneratingRings = false; // リング生成中フラグ
+    [Header("ネットワーク設定")]
+    public int avatarID; // このアバターのID
 
-    /*
-    void Update()
-    {
-        // スペースキー長押しで連続生成
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isGeneratingRings = true;
-            StartCoroutine(GenerateRingsContinuously());
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            isGeneratingRings = false;
-        }
-    }
-    */
+    private bool isGeneratingRings = false; // リング生成中フラグ
 
     void OnMouseDown()
     {
-        isGeneratingRings = true;
-        StartCoroutine(GenerateRingsContinuously());
+            // RPCを対象のアバターだけに送信
+            photonView.RPC("StartGeneratingRings", photonView.Owner);
     }
 
     void OnMouseUp()
     {
+            // RPCを対象のアバターだけに送信
+            photonView.RPC("StopGeneratingRings", photonView.Owner);
+    }
+
+    /// <summary>
+    /// RPC: リング生成開始
+    /// </summary>
+    [PunRPC]
+    public void StartGeneratingRings(PhotonMessageInfo info)
+    {
+        // IDが一致しない場合は終了
+        avatarID = photonView.Owner.ActorNumber;
+        if (avatarID != info.Sender.ActorNumber)
+        {
+            return;
+        }
+
+        Debug.Log($"リング生成開始 (送信元: {info.Sender.NickName}, アバターID: {info.Sender.ActorNumber})");
+        isGeneratingRings = true;
+        StartCoroutine(GenerateRingsContinuously());
+    }
+
+    /// <summary>
+    /// RPC: リング生成停止
+    /// </summary>
+    [PunRPC]
+    public void StopGeneratingRings(PhotonMessageInfo info)
+    {
+        // IDが一致しない場合は終了
+        avatarID = photonView.Owner.ActorNumber;
+        if (avatarID != info.Sender.ActorNumber)
+        {
+            return;
+        }
+
+        Debug.Log($"リング生成停止 (送信元: {info.Sender.NickName})");
         isGeneratingRings = false;
     }
 

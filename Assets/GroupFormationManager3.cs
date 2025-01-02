@@ -101,13 +101,13 @@ public class GroupFormationManager3 : MonoBehaviourPunCallbacks
             }
         }
 
-        // グループの中心を計算
+        // グループの中心をマスターの位置に設定
         Vector3 center = Vector3.zero;
-        foreach (Transform playerTransform in groupPlayers)
+        Transform masterAvatarTransform = FindAvatarTransformByPlayer(PhotonNetwork.MasterClient);
+        if (masterAvatarTransform != null)
         {
-            center += playerTransform.position;
+            center = masterAvatarTransform.position;
         }
-        center /= groupPlayers.Count;
 
         // グループ人数に応じて円の半径を動的に計算
         float dynamicRadius = Mathf.Max(5f, groupPlayers.Count * 1.5f);
@@ -137,6 +137,7 @@ public class GroupFormationManager3 : MonoBehaviourPunCallbacks
         Debug.Log("【デバッグ】グループメンバーを円形に配置しました。");
     }
 
+
     void ArrangeBoundaryCylinder(Vector3 center, float radius)
     {
         if (boundaryCylinderPrefab != null)
@@ -148,7 +149,7 @@ public class GroupFormationManager3 : MonoBehaviourPunCallbacks
             }
 
             // 円柱のスケールと位置を調整
-            boundaryCylinderInstance.transform.position = center;
+            boundaryCylinderInstance.transform.position = new Vector3(center.x, -0.3f, center.z);
             boundaryCylinderInstance.transform.localScale = new Vector3(radius * 2, boundaryCylinderInstance.transform.localScale.y, radius * 2);
         }
         else

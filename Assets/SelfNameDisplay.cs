@@ -16,14 +16,16 @@ public class SelfNameDisplay : MonoBehaviourPunCallbacks
             return;
         }
 
+
         // 初期化して名前を表示
         UpdateNameDisplay();
-
+/*
         // 名前が設定されていない場合、デフォルトの名前を設定
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(NAME_KEY_PREFIX + PhotonNetwork.LocalPlayer.ActorNumber))
         {
             SetDefaultName();
         }
+*/
     }
 
     private void UpdateNameDisplay()
@@ -35,7 +37,7 @@ public class SelfNameDisplay : MonoBehaviourPunCallbacks
         }
         else
         {
-            nameDisplayText.text = $"ID: {PhotonNetwork.LocalPlayer.ActorNumber}";
+            return;
         }
     }
 
@@ -56,5 +58,11 @@ public class SelfNameDisplay : MonoBehaviourPunCallbacks
         {
             UpdateNameDisplay();
         }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log($"【デバッグ】ルーム参加完了。自分のID: {PhotonNetwork.LocalPlayer.ActorNumber}");
+        SetDefaultName();
     }
 }

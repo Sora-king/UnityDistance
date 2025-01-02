@@ -22,14 +22,15 @@ public class AvatarSpawner : MonoBehaviourPunCallbacks
         // プレイヤーのスポーン位置を決定
         int playerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;
         Vector3 spawnPosition = spawnPoints[playerIndex % spawnPoints.Length].position;
+        Quaternion spawnRotation = spawnPoints[playerIndex % spawnPoints.Length].rotation;
 
         // アバターを生成
-        GameObject avatar = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
+        GameObject avatar = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, spawnRotation);
 
         // 自分のアバターにのみ物理法則を適用、他のアバターの Rigidbody を削除
         if (!avatar.GetComponent<PhotonView>().IsMine)
         {
-            RemovePhysics(avatar);
+            SetTriggerForOtherAvatars(avatar);
         }
 
         // 自分のアバターを TagObject に設定
@@ -53,5 +54,17 @@ public class AvatarSpawner : MonoBehaviourPunCallbacks
         }
 
         Debug.Log("物理法則を削除しました: " + targetAvatar.name);
+    }
+
+    // 他のアバターの Collider を Is Trigger に設定するメソッド
+    private void SetTriggerForOtherAvatars(GameObject targetAvatar)
+    {
+        Collider collider = targetAvatar.GetComponent<Collider>();
+        if (collider != null)
+        {
+            collider.isTrigger = true; // Collider の Is Trigger を ON に設定
+        }
+
+        Debug.Log("Collider を Is Trigger に設定しました: " + targetAvatar.name);
     }
 }
