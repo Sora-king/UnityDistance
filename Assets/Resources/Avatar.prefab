@@ -257,10 +257,10 @@ GameObject:
   - component: {fileID: 7893173337585476316}
   - component: {fileID: -905200335338775931}
   - component: {fileID: 410873658475797925}
-  - component: {fileID: -4611193539198054791}
   - component: {fileID: 8066825050017826417}
   - component: {fileID: 8587010078222885922}
   - component: {fileID: -7643393305351751794}
+  - component: {fileID: 1730131977568952865}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Player
@@ -598,19 +598,6 @@ MonoBehaviour:
   angleThreshold: 30
   defaultVolume: 0
   maxVolume: 1
---- !u!114 &-4611193539198054791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3027452683471922017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02e20953aff2b1e448435ed560d7e85b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clusteringDistance: 10
 --- !u!114 &8066825050017826417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,3 +635,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c923215f4d500247aeeeaa1aeb1bfe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1730131977568952865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027452683471922017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8975b01d21edf324f9beb2c72ea65b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clusteringDistance: 10
+  boundaryCylinderPrefab: {fileID: 3947862395218043235, guid: 66a372a74604d8a48840e4ef50603e33, type: 3}

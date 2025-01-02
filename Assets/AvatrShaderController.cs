@@ -4,7 +4,7 @@ using Photon.Pun;
 public class AvatarShaderController : MonoBehaviour
 {
     private Material material; // アバターのマテリアル
-    private Renderer renderer;
+    private Renderer avatar_renderer;
 
     private float defaultOutlineWidth; // デフォルトのアウトライン幅
     private Color defaultAuraColor;    // デフォルトのオーラ色
@@ -13,17 +13,17 @@ public class AvatarShaderController : MonoBehaviour
 
     void Start()
     {
-        renderer = GetComponent<Renderer>();
-        
+        avatar_renderer = GetComponent<Renderer>();
+
         // Rendererが見つからない場合
-        if (renderer == null)
+        if (avatar_renderer == null)
         {
             Debug.LogError("Rendererが見つかりません。");
             return;
         }
 
-        material = renderer.material; // マテリアルの参照を取得
-        
+        material = avatar_renderer.material; // マテリアルの参照を取得
+
         // Materialがnullの場合
         if (material == null)
         {
