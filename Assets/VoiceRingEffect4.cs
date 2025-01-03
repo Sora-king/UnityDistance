@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class VoiceRingEffect4 : MonoBehaviourPun
 {
@@ -22,20 +23,62 @@ public class VoiceRingEffect4 : MonoBehaviourPun
 
     private bool isGeneratingRings = false; // リング生成中フラグ
 
+    private PhotonView targetPhotonView;
+    
+    void Start()
+    {
+        targetPhotonView = GetLocalPlayerPhotonView();
+    }
+    
+
     void OnMouseDown()
     {
-            // RPCを対象のアバターだけに送信
-            Debug.Log($"[RPC送信] StartGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
-            //PhotonView local_photonview = GetPhotonViewByPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
-            photonView.RPC("StartGeneratingRings", RpcTarget.Others, photonView.Owner.ActorNumber);
+        if(photonView.Owner.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log("自分");
+            return;
+        }
+        // RPCを対象のアバターだけに送信
+        Debug.Log($"[RPC送信] StartGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
+        //PhotonView local_photonview = GetPhotonViewByPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+        Player target_player = PhotonNetwork.CurrentRoom.GetPlayer(photonView.Owner.ActorNumber);
+        if (targetPhotonView == null)
+        {
+            Debug.LogError("指定された PhotonView ID (2) が見つかりません。");
+            return; // 処理を中断
+        }  
+        targetPhotonView.RPC("StartGeneratingRings", target_player, photonView.Owner.ActorNumber);
 
     }
 
     void OnMouseUp()
     {
-            // RPCを対象のアバターだけに送信
-            Debug.Log($"[RPC送信] StopGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
-            photonView.RPC("StopGeneratingRings", RpcTarget.Others, photonView.Owner.ActorNumber);
+        if(photonView.Owner.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log("自分");
+            return;
+        }
+        // RPCを対象のアバターだけに送信
+        Debug.Log($"[RPC送信] StopGeneratingRingsを {photonView.Owner.NickName} (ID: {photonView.Owner.ActorNumber}) に送信");
+        Player target_player = PhotonNetwork.CurrentRoom.GetPlayer(photonView.Owner.ActorNumber);
+        //PhotonView targetPhotonView = PhotonView.Find(PhotonNetwork.LocalPlayer.ActorNumber);
+        targetPhotonView.RPC("StopGeneratingRings", target_player, photonView.Owner.ActorNumber);
+    }
+
+    private PhotonView GetLocalPlayerPhotonView()
+    {
+        PhotonView[] allPhotonViews = FindObjectsOfType<PhotonView>();
+
+        foreach (PhotonView view in allPhotonViews)
+        {
+            if (view.Owner == PhotonNetwork.LocalPlayer)
+            {
+                return view; // ローカルプレイヤーに関連付けられた PhotonView を返す
+            }
+        }
+
+        Debug.LogWarning("LocalPlayer に関連付けられた PhotonView が見つかりませんでした。");
+        return null;
     }
 
 /*
@@ -85,9 +128,11 @@ public class VoiceRingEffect4 : MonoBehaviourPun
     /// <summary>
     /// RPC: リング生成開始
     /// </summary>
+    /// [Rpc(source: RpcSources.All, targets:  RpcTargets.All)]
     [PunRPC]
     public void StartGeneratingRings(int targetID, PhotonMessageInfo info)
     {
+        /*
         // IDが一致しない場合は終了
         if (targetID != PhotonNetwork.LocalPlayer.ActorNumber)
         {
@@ -100,7 +145,7 @@ public class VoiceRingEffect4 : MonoBehaviourPun
         {
             Debug.LogWarning($"[FirstRPC] 送信元がこのオブジェクトの所有者ではありません (photonView.Owner: {photonView.Owner.ActorNumber}, info.Sender: {info.Sender.ActorNumber})");
             return;
-        }
+        }*/
 
         Debug.Log($"[RPC受信] StartGeneratingRingsを受信 (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetID})");
         Debug.Log($"リング生成開始 (自分: {PhotonNetwork.LocalPlayer.ActorNumber}, ターゲットID: {targetID})");
@@ -112,9 +157,10 @@ public class VoiceRingEffect4 : MonoBehaviourPun
     /// RPC: リング生成停止
     /// </summary>
     [PunRPC]
-    public void StopGeneratingRings(PhotonMessageInfo info)
+    public void StopGeneratingRings(int targetID, PhotonMessageInfo info)
     {
         // IDが一致しない場合は終了
+        /*
         avatarID = photonView.Owner.ActorNumber;
         if (avatarID != info.Sender.ActorNumber)
         {
@@ -127,6 +173,7 @@ public class VoiceRingEffect4 : MonoBehaviourPun
             Debug.LogWarning($"[FirstRPC] 送信元がこのオブジェクトの所有者ではありません (photonView.Owner: {photonView.Owner.ActorNumber}, info.Sender: {info.Sender.ActorNumber})");
             return;
         }
+        */
 
         Debug.Log($"リング生成停止 (送信元: {info.Sender.NickName})");
         isGeneratingRings = false;
