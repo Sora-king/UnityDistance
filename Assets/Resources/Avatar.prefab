@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 1730131977568952865}
   - component: {fileID: 5744548603670091867}
   - component: {fileID: 1349457064770522704}
+  - component: {fileID: 6509765558071487343}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Player
@@ -663,3 +664,15 @@ MonoBehaviour:
   ringSpawnPoint: {fileID: 3141965079158132392}
   avatarTransform: {fileID: 3141965079158132392}
   avatarID: 0
+--- !u!114 &6509765558071487343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027452683471922017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abee33b1cf52b6b4c90eb656fbec0041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
