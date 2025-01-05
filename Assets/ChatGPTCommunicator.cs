@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.IO;
+
+[System.Serializable]
+public class Config
+{
+    public string apiKey;
+}
 
 public class ChatGPTCommunicator : MonoBehaviour
 {
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
-    [SerializeField] private string apiKey = "***REMOVED***"; // 正しいAPIキーを入力
+    //[SerializeField] private string apiKey; // 正しいAPIキーを入力
+    private string apiKey;
 
     public delegate void OnReplyReceived(string reply);
     public event OnReplyReceived ReplyReceived;
@@ -42,6 +50,31 @@ public class ChatGPTCommunicator : MonoBehaviour
                 public string role;
                 public string content;
             }
+        }
+    }
+
+    public void Start()
+    {
+        // 設定ファイルのパスを取得
+        string filePath = Path.Combine(Application.dataPath, "apiconfig.json");
+
+        if (File.Exists(filePath))
+        {
+            // ファイルを読み込む
+            string jsonText = File.ReadAllText(filePath);
+            Config config = JsonUtility.FromJson<Config>(jsonText);
+
+            // APIキーを取得
+            apiKey = config.apiKey;
+
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                Debug.LogError("設定ファイルにAPIキーが見つかりません。");
+            }
+        }
+        else
+        {
+            Debug.LogError($"設定ファイルが見つかりません: {filePath}");
         }
     }
 

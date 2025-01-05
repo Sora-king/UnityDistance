@@ -1890,7 +1890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82fdb82cefe8df46830998cc37b1549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: '***REMOVED***'
 --- !u!4 &1067134928
 Transform:
   m_ObjectHideFlags: 0
