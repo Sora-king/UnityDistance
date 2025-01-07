@@ -100,7 +100,24 @@ public class ChatGPTCommunicator : MonoBehaviour
             model = "gpt-3.5-turbo",
             messages = new List<ChatGPTRequest.Message>
             {
-                new ChatGPTRequest.Message { role = "system", content = "You are a helpful assistant." },
+                new ChatGPTRequest.Message
+                { role = "system", content = 
+                @"下記のjson文法に従って出力してください。
+与えられた議題を適切に階層化してjson形式で出力してください。
+********
+{
+  'question': '議題または問題を記述します',
+  'conclusion': '結論がある場合に記述します。サブ議題がある場合はnullを指定します。',
+  'subTopics': [
+    {
+      'question': 'サブ議題または問題を記述します',
+      'conclusion': '結論には'結論未記入'を記述します。サブ議題がある場合はnullを指定します。', 
+      'subTopics': 'さらに詳細なサブ議題がある場合に記述します。2つ以上存在する場合のみ有効。なければnullを指定します。'
+    }
+  ]
+}
+********"
+                },
                 new ChatGPTRequest.Message { role = "user", content = userInput }
             }
         };
