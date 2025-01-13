@@ -10,7 +10,8 @@ public class NameManager : MonoBehaviourPunCallbacks
     private const string NAME_KEY_PREFIX = "name_"; // 名前のキーのプレフィックス
     public TMP_InputField nameInputField; // 名前を入力するUI
     public Button saveButton; // 名前を保存するボタン
-    public Button showInputButton; // InputFieldを表示するボタン
+    //public Button showInputButton; // InputFieldを表示するボタン
+    private bool isVisible = false;       // 現在の表示状態
 
     void Start()
     {
@@ -20,7 +21,7 @@ public class NameManager : MonoBehaviourPunCallbacks
 
         // ボタンのクリックイベントを登録
         saveButton.onClick.AddListener(OnSaveButtonClicked);
-        showInputButton.onClick.AddListener(OnShowInputButtonClicked);
+        //showInputButton.onClick.AddListener(OnShowInputButtonClicked);
 
         // 自分の名前をカスタムプロパティから読み込んで表示
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(NAME_KEY_PREFIX + PhotonNetwork.LocalPlayer.ActorNumber, out object playerName))
@@ -29,11 +30,13 @@ public class NameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnShowInputButtonClicked()
+    public void OnShowInputButtonClicked()
     {
+        // 表示状態を反転
+        isVisible = !isVisible;
         // InputFieldと保存ボタンを表示
-        nameInputField.gameObject.SetActive(true);
-        saveButton.gameObject.SetActive(true);
+        nameInputField.gameObject.SetActive(isVisible);
+        saveButton.gameObject.SetActive(isVisible);
     }
 
     private void OnSaveButtonClicked()

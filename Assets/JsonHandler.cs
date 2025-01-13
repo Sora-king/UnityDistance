@@ -23,6 +23,11 @@ public class JsonHandler : MonoBehaviour
 
     void Start()
     {
+        if (string.IsNullOrEmpty(jsonInput))
+        {
+        Debug.Log("No input provided. Exiting function.");
+        return;
+        }
         // JSONデータをC#オブジェクトに変換
         rootNode = JsonUtility.FromJson<Node>(jsonInput);
 
