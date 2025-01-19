@@ -16,7 +16,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
     public float maxVolume = 1.0f; // 正面方向の音量
     bool flag = false;
 
-    List<Player> announce_playerList = new List<Player>();
+    List<int> announce_playerList = new List<int>();
 
     
     [SerializeField]
@@ -68,7 +68,8 @@ public class Directiontest : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player == PhotonNetwork.LocalPlayer) continue; // 自分自身はスキップ
-            if (announce_playerList.Contains(player)){
+            if (announce_playerList.Contains(player.ActorNumber)){
+                Debug.Log("ああああああ");
                 GameObject targetAvatar1 = FindAvatarByPlayer(player);
                 Speaker speaker1 = targetAvatar1.transform.GetComponent<Speaker>();
                 AudioSource audioSource1 = speaker1.GetComponent<AudioSource>();
@@ -166,24 +167,13 @@ public class Directiontest : MonoBehaviourPunCallbacks
             // カスタムプロパティから取得
             if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("announceplayer", out object value))
             {
-                int[] playerActorNumbers = value as int[];
+                int[] playerActorNumbers = value as int[]; // カスタムプロパティからIDリストを取得
 
                 if (playerActorNumbers != null)
                 {
-                    List<Player> playerList = new List<Player>();
-
-                    // ActorNumber から対応する Player を取得
-                    foreach (int actorNumber in playerActorNumbers)
-                    {
-                        Player player = PhotonNetwork.CurrentRoom.Players.Values.FirstOrDefault(p => p.ActorNumber == actorNumber);
-                        if (player != null)
-                        {
-                            playerList.Add(player);
-                        }
-                    }
-
-                    Debug.Log("Playerリストをカスタムプロパティから取得しました。");
-                    announce_playerList = playerList;
+                    // announce_playerList にIDを追加
+                    announce_playerList = playerActorNumbers.ToList();
+                    Debug.Log($"Player ID リストをカスタムプロパティから取得しました: {string.Join(", ", announce_playerList)}");
                 }
                 else
                 {
