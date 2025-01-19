@@ -3,6 +3,10 @@ using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
 using Photon.Voice.Unity;
+using System.Collections.Generic;
+using System.Linq;
+
+
 
 public class Directiontest : MonoBehaviourPunCallbacks
 {
@@ -10,6 +14,8 @@ public class Directiontest : MonoBehaviourPunCallbacks
     public float angleThreshold = 30f; // 正面方向の角度閾値（±30度）
     public float defaultVolume = 0.1f; // 正面以外の音量
     public float maxVolume = 1.0f; // 正面方向の音量
+
+    List<Player> announce_playerList = new List<Player>();
 
     
     [SerializeField]
@@ -45,7 +51,11 @@ public class Directiontest : MonoBehaviourPunCallbacks
             Debug.Log("【デバッグ】自分のアバターがまだ設定されていません。");
             return;
         }
-
+        if(photonView.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log("他人");
+            return;
+        }
         // 他のプレイヤーの音量を毎フレーム調整
         AdjustVolumesForAllPlayers();
     }
@@ -55,6 +65,13 @@ public class Directiontest : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (player == PhotonNetwork.LocalPlayer) continue; // 自分自身はスキップ
+            if (announce_playerList.Contains(player)){
+                GameObject targetAvatar1 = FindAvatarByPlayer(player);
+                Speaker speaker1 = targetAvatar1.transform.GetComponent<Speaker>();
+                AudioSource audioSource1 = speaker1.GetComponent<AudioSource>();
+                audioSource1.volume = maxVolume;
+                continue;
+            }
 
             // プレイヤーに紐付くアバターを取得
             GameObject targetAvatar = FindAvatarByPlayer(player);
@@ -136,6 +153,44 @@ public class Directiontest : MonoBehaviourPunCallbacks
             // 3Dなら1.0、2Dなら0.0に設定
             myaudioSource.spatialBlend = is3D ? 1.0f : 0.0f;
             Debug.Log($"[Avatar ID: {photonView.Owner.ActorNumber}] Spatial Blend を {(is3D ? "3D" : "2D")} に切り替えました。");
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey("announceplayer") && photonView.Owner.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            // カスタムプロパティから取得
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("announce_playerList", out object value))
+            {
+                int[] playerActorNumbers = value as int[];
+
+                if (playerActorNumbers != null)
+                {
+                    List<Player> playerList = new List<Player>();
+
+                    // ActorNumber から対応する Player を取得
+                    foreach (int actorNumber in playerActorNumbers)
+                    {
+                        Player player = PhotonNetwork.CurrentRoom.Players.Values.FirstOrDefault(p => p.ActorNumber == actorNumber);
+                        if (player != null)
+                        {
+                            playerList.Add(player);
+                        }
+                    }
+
+                    Debug.Log("Playerリストをカスタムプロパティから取得しました。");
+                    announce_playerList = playerList;
+                }
+                else
+                {
+                    Debug.LogWarning("カスタムプロパティ 'announce_playerList' に保存されたデータが null です。");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("カスタムプロパティ 'announce_playerList' が見つかりません。");
+            }
         }
     }
 }

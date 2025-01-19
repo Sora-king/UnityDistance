@@ -314,6 +314,11 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
             }
             else
             {
+                // activeNodesByGroup の内容をデバッグログで出力
+                foreach (var pair in activeNodesByGroup)
+                {
+                    Debug.Log($"Key: {pair.Key}, Value: {pair.Value}");
+                }
                 Debug.Log("activeNodesByGroup に -1 以外の値があります。");
             }
         }
