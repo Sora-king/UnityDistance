@@ -164,7 +164,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("announceplayer") && photonView.Owner.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             // カスタムプロパティから取得
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("announce_playerList", out object value))
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("announceplayer", out object value))
             {
                 int[] playerActorNumbers = value as int[];
 
@@ -187,12 +187,12 @@ public class Directiontest : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    Debug.LogWarning("カスタムプロパティ 'announce_playerList' に保存されたデータが null です。");
+                    Debug.LogWarning("カスタムプロパティ 'announceplayer' に保存されたデータが null です。");
                 }
             }
             else
             {
-                Debug.LogWarning("カスタムプロパティ 'announce_playerList' が見つかりません。");
+                Debug.LogWarning("カスタムプロパティ 'announceplayer' が見つかりません。");
             }
         }
     }
