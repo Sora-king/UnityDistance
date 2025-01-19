@@ -2,6 +2,8 @@ using UnityEngine;
 using Photon.Pun; // PUNを使う場合
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 
 public class AnnouncementButton : MonoBehaviourPun
@@ -32,6 +34,7 @@ public class AnnouncementButton : MonoBehaviourPun
                 {
                     Debug.LogError("InterestGroupChatManagerが見つかりませんでした。");
                 }
+        ChangeButtonColorBasedOn3DState(is3D);
 
     }
 
@@ -100,6 +103,38 @@ public class AnnouncementButton : MonoBehaviourPun
         PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
 
         Debug.Log("カスタムプロパティを更新しました。");
+    }
+
+    public void ChangeButtonColorBasedOn3DState(bool is3D)
+    {
+        // 自分自身の Button コンポーネントを取得
+        Button selfButton = GetComponent<Button>();
+        if (selfButton != null)
+        {
+            ColorBlock colorBlock = selfButton.colors; // 現在の ColorBlock を取得
+
+            if (is3D)
+            {
+                // is3D が true の場合は白色に設定
+                colorBlock.normalColor = Color.white;
+                colorBlock.highlightedColor = Color.white * 1.2f; // 少し明るい白
+                colorBlock.pressedColor = Color.white * 0.8f;     // 少し暗い白
+            }
+            else
+            {
+                // is3D が false の場合は少し赤っぽい色に設定
+                colorBlock.normalColor = new Color(1.0f, 0.8f, 0.8f); // 薄い赤
+                colorBlock.highlightedColor = new Color(1.0f, 0.9f, 0.9f); // 少し明るい薄い赤
+                colorBlock.pressedColor = new Color(0.9f, 0.7f, 0.7f); // 少し暗い薄い赤
+            }
+
+            // 変更を反映
+            selfButton.colors = colorBlock;
+        }
+        else
+        {
+            Debug.LogError("Button コンポーネントが見つかりません！");
+        }
     }
 
 }

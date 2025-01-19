@@ -53,14 +53,14 @@ public class InterestGroupChatManager : MonoBehaviourPunCallbacks
     public void SetInterestGroup(bool is3D)
     {
         if (string.IsNullOrEmpty(currentGroup)) return;
-        
+
         if (recorder == null)
         {
             Debug.LogError("Recorder が設定されていません。");
             return;
         }
 
-        if (is3D)
+        if (!is3D)
         {
             recorder.InterestGroup = 0; // 全員送信
             Debug.Log("InterestGroup を全員送信 (0) に設定しました。");
