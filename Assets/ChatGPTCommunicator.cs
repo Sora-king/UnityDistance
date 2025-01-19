@@ -24,8 +24,8 @@ public class ChatGPTCommunicator : MonoBehaviour
     private string currentSystemContent;
 
     private string systemContentTemplate = 
-@"下記のjson文法に従って出力してください。
-与えられた議題を細分化し階層化してjson形式で出力してください。必ず細分化してください。末端以外の結論にはnullを記述します。
+@"与えられた議題を細分化し階層化してjson形式で出力してください。必ず細分化してください。末端以外の結論にはnullを記述します。
+出力フォーマットは以下のJSON文法と同じ形式で返してください。ただし、コードブロック記法（```json）は不要です。
 ********
 {
   ""question"": ""議題を記述します"",

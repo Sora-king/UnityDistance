@@ -51,6 +51,11 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Start()
+    {
+        submitButton.onClick.AddListener(OnSubmitConclusion);
+    }
+
     public void NodeGroupeStart(Node rootNode)
     {
         root_Node = rootNode;
@@ -77,7 +82,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
         /*}*/
 
         // ボタンのクリックイベントを設定
-        submitButton.onClick.AddListener(OnSubmitConclusion);
+        //submitButton.onClick.AddListener(OnSubmitConclusion);
     }
 
     // 再帰的に葉ノードを探索
@@ -339,6 +344,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
                 Debug.LogError("担当ノードが葉ノードリストに見つかりません。");
                 return;
             }
+            Debug.Log($"currentIndex: {currentIndex}");
             
 
             // カスタムプロパティから "conclusions" を取得
