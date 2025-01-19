@@ -69,7 +69,6 @@ public class Directiontest : MonoBehaviourPunCallbacks
         {
             if (player == PhotonNetwork.LocalPlayer) continue; // 自分自身はスキップ
             if (announce_playerList.Contains(player.ActorNumber)){
-                Debug.Log("ああああああ");
                 GameObject targetAvatar1 = FindAvatarByPlayer(player);
                 Speaker speaker1 = targetAvatar1.transform.GetComponent<Speaker>();
                 AudioSource audioSource1 = speaker1.GetComponent<AudioSource>();
@@ -172,6 +171,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
                 if (playerActorNumbers != null)
                 {
                     // announce_playerList にIDを追加
+                    //Debug.Log($"playerActorNumbers: {string.Join(", ", playerActorNumbers)}");
                     announce_playerList = playerActorNumbers.ToList();
                     Debug.Log($"Player ID リストをカスタムプロパティから取得しました: {string.Join(", ", announce_playerList)}");
                 }

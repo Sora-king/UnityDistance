@@ -68,7 +68,7 @@ public class AnnouncementButton : MonoBehaviourPun
         // 現在のリストを List<int> に変換
         List<int> actorNumberList = playerActorNumbers.ToList();
 
-        if (is3D)
+        if (!is3D)
         {
             // LocalPlayer がリストに存在しない場合は追加
             if (!actorNumberList.Contains(localPlayerActorNumber))
@@ -86,6 +86,11 @@ public class AnnouncementButton : MonoBehaviourPun
                 Debug.Log($"LocalPlayer {localPlayerActorNumber} をリストから削除しました。");
             }
         }
+
+        //Debug.Log($"保存するデータ (actorNumberList): {string.Join(", ", actorNumberList)}");
+        //Debug.Log($"保存するデータ (actorNumberList): {string.Join(", ", actorNumberList.ToArray())}");
+
+
 
         // リストを配列に戻してカスタムプロパティに保存
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
