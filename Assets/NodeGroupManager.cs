@@ -303,6 +303,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
             else
             {
                 activeNodesByGroup[groupKey] = -1;
+                SaveActiveNodesToCustomProperties();
                 Debug.Log($"グループ {groupKey} に割り当て可能なノードがありません。");
             }
 
