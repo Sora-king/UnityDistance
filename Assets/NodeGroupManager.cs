@@ -275,7 +275,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
             // 新しく割り当てるノードのインデックスを計算
             int nextIndex = maxAssignedIndex + 1;
 
-            if (nextIndex < leafcount)
+            if (nextIndex < leafcount || activeNodesByGroup.Values.Contains(-1) )
             {
                 // 新しいノードを割り当て
                 //Node nextNode = leafNodes[nextIndex];
@@ -322,8 +322,8 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
                 Debug.Log("activeNodesByGroup に -1 以外の値があります。");
             }
         }
-        else
-        {
+        else{
+    
             Debug.LogError($"グループ {groupKey} の割り当てが見つかりません。");
         }
         return false;
