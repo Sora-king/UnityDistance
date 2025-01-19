@@ -580,8 +580,7 @@ MonoBehaviour:
   angleThreshold: 30
   defaultVolume: 0
   maxVolume: 1
-  audioSource: {fileID: 3559696632448726709}
-  speaker: {fileID: 7893173337585476316}
+  myaudioSource: {fileID: 3559696632448726709}
 --- !u!114 &8066825050017826417
 MonoBehaviour:
   m_ObjectHideFlags: 0

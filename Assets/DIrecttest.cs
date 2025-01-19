@@ -13,10 +13,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
 
     
     [SerializeField]
-    private AudioSource audioSource;
-
-    [SerializeField]
-    private Speaker speaker;
+    private AudioSource myaudioSource;
 
     void Start()
     {
@@ -110,7 +107,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
         float angle = Vector3.Angle(forwardDirection, directionToTarget);
 
         // Speaker に関連付けられた AudioSource を取得
-        //Speaker speaker = target.GetComponent<Speaker>();
+        Speaker speaker = target.GetComponent<Speaker>();
         if (speaker != null)
         {
             AudioSource audioSource = speaker.GetComponent<AudioSource>();
@@ -134,10 +131,10 @@ public class Directiontest : MonoBehaviourPunCallbacks
     [PunRPC] // Photon PUNのRPC属性
     public void SetSpatialBlend(bool is3D)
     {
-        if (audioSource != null)
+        if (myaudioSource != null)
         {
             // 3Dなら1.0、2Dなら0.0に設定
-            audioSource.spatialBlend = is3D ? 1.0f : 0.0f;
+            myaudioSource.spatialBlend = is3D ? 1.0f : 0.0f;
             Debug.Log($"[Avatar ID: {photonView.Owner.ActorNumber}] Spatial Blend を {(is3D ? "3D" : "2D")} に切り替えました。");
         }
     }
