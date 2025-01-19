@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using TMPro; // TextMeshProを使用
 
-public class AccordionMenu : MonoBehaviour
+public class AccordionMenu : MonoBehaviourPunCallbacks
 {
     public GameObject menuPanel;          // アコーディオンメニューのパネル
     public Button menuButton;             // メニューボタン
     public GameObject buttonPrefab;       // ボタンのプレハブ
+
+    public GameObject scrollView;
 
     private bool isMenuOpen = false;
 
@@ -27,6 +29,7 @@ public class AccordionMenu : MonoBehaviour
     {
         // メニューボタンにクリックイベントを設定
         menuButton.onClick.AddListener(ToggleMenu);
+        scrollView.SetActive(false);
     }
 
     // メニューを開閉する
@@ -121,7 +124,7 @@ public class AccordionMenu : MonoBehaviour
         return currentProperties.ContainsKey("Groups") && currentProperties["Groups"] != null;
     }
 
-/*
+
     // カスタムプロパティが更新されたときに呼ばれる
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
@@ -136,5 +139,4 @@ public class AccordionMenu : MonoBehaviour
             }
         }
     }
-    */
 }

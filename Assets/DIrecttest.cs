@@ -11,6 +11,13 @@ public class Directiontest : MonoBehaviourPunCallbacks
     public float defaultVolume = 0.1f; // 正面以外の音量
     public float maxVolume = 1.0f; // 正面方向の音量
 
+    
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private Speaker speaker;
+
     void Start()
     {
         // 自分のアバターを探して設定
@@ -103,7 +110,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
         float angle = Vector3.Angle(forwardDirection, directionToTarget);
 
         // Speaker に関連付けられた AudioSource を取得
-        Speaker speaker = target.GetComponent<Speaker>();
+        //Speaker speaker = target.GetComponent<Speaker>();
         if (speaker != null)
         {
             AudioSource audioSource = speaker.GetComponent<AudioSource>();
@@ -120,6 +127,18 @@ public class Directiontest : MonoBehaviourPunCallbacks
         else
         {
             Debug.LogError("【デバッグ】Speakerコンポーネントがターゲットにアタッチされていません。");
+        }
+    }
+
+    // RPCでSpatial Blendを切り替える関数
+    [PunRPC] // Photon PUNのRPC属性
+    public void SetSpatialBlend(bool is3D)
+    {
+        if (audioSource != null)
+        {
+            // 3Dなら1.0、2Dなら0.0に設定
+            audioSource.spatialBlend = is3D ? 1.0f : 0.0f;
+            Debug.Log($"[Avatar ID: {photonView.Owner.ActorNumber}] Spatial Blend を {(is3D ? "3D" : "2D")} に切り替えました。");
         }
     }
 }

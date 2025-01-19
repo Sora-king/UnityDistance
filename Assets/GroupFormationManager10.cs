@@ -10,6 +10,8 @@ public class GroupFormationManager10 : MonoBehaviourPunCallbacks
     public float groupSpacing = 15f; // グループ間の間隔
     private const string GROUP_KEY = "Groups";
 
+    //private string mygroup;
+   // private bool myflag = false;
     public void FormGroups(List<int> photonIds, int groupSize)
     {
         if (photonIds == null || photonIds.Count == 0 || groupSize <= 0)
@@ -39,8 +41,15 @@ public class GroupFormationManager10 : MonoBehaviourPunCallbacks
             List<int> groupMembers = new List<int>();
             for (int j = 0; j < groupSizes[i] && photonIds.Count > 0; j++)
             {
-                groupMembers.Add(photonIds[0]);
-                photonIds.RemoveAt(0);
+                /*if(photonIds[j] == PhotonNetwork.LocalPlayer.ActorNumber)
+                {
+                    myflag = true;
+                    mygroup = "Group" + (char)('A' + i);
+                    Debug.Log("My GroupNameを設定しました");
+                }*/
+
+                groupMembers.Add(photonIds[j]);
+                photonIds.RemoveAt(j);
             }
 
             // グループの中心位置を計算
@@ -49,6 +58,21 @@ public class GroupFormationManager10 : MonoBehaviourPunCallbacks
             // 色を決定
             Color groupColor = GenerateUniqueColor(assignedColors);
             assignedColors.Add(groupColor);
+            /*if(myflag)
+            {
+                UIUpdater UIUpdater = FindObjectOfType<UIUpdater>();
+                if (UIUpdater != null)
+                {
+                    UIUpdater.UpdateUI(groupColor, mygroup);
+                }
+                else
+                {
+                    Debug.LogError("UIUpdaterが見つかりませんでした。");
+                }
+
+                myflag = false;
+
+            }*/
 
             // 半径をメンバー数に基づいて決定
             float radius = baseRadius + groupMembers.Count;

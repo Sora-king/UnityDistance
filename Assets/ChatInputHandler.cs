@@ -16,12 +16,14 @@ public class ChatInputHandler : MonoBehaviour
         int Num;
         if (!string.IsNullOrEmpty(userMessage) && !string.IsNullOrEmpty(NumMessage))
         {
-            chatGPTCommunicator.SendMessageToChatGPT(userMessage);
+            chatGPTCommunicator.SendMessageToChatGPT(userMessage, true);
             userInputField.text = ""; // 入力欄をクリア
 
             Num = int.Parse(NumMessage);
             TryGroup.TryStartGroupFormation(Num);
             userInputField.text = ""; // 入力欄をクリア
+            // InputFieldと保存ボタンを表示
+            userInputField.gameObject.SetActive(false);
         }
     }
 }
