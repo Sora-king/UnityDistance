@@ -51,10 +51,10 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
         submitButton.onClick.AddListener(OnSubmitConclusion);
-    }
+    }*/
 
     public void NodeGroupeStart(Node rootNode)
     {
@@ -246,7 +246,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
     }
 
     // グループの割り当てを再調整
-    public void ReassignGroup(string groupKey)
+    public bool ReassignGroup(string groupKey)
     {
         // 最新の情報を取得
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(ACTIVE_NODES_KEY))
@@ -302,18 +302,31 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
             }
             else
             {
+                activeNodesByGroup[groupKey] = -1;
                 Debug.Log($"グループ {groupKey} に割り当て可能なノードがありません。");
+            }
+
+            if (activeNodesByGroup.Values.All(value => value == -1))
+            {
+                Debug.Log("activeNodesByGroup のすべての値が -1 です。");
+                // 必要な処理をここに記述
+                return true;
+            }
+            else
+            {
+                Debug.Log("activeNodesByGroup に -1 以外の値があります。");
             }
         }
         else
         {
             Debug.LogError($"グループ {groupKey} の割り当てが見つかりません。");
         }
+        return false;
     }
 
 
     // ボタンが押されたときの処理
-    private void OnSubmitConclusion()
+    public void OnSubmitConclusion()
     {
         // 自分のグループキーを取得
         if(myGroupKey == null){
@@ -383,8 +396,8 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
             {
                 Debug.LogError("カスタムプロパティ 'conclusions' が見つかりません。");
             }
-
-            if (currentIndex == leafcount-1)
+            //activeNodesByGroup のすべての値が -1 ならtrueを返す
+            if (ReassignGroup(myGroupKey))
             {
                 if(PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("conclusions"))
                 {
@@ -440,7 +453,7 @@ public class NodeGroupManager : MonoBehaviourPunCallbacks
                 // 入力フィールドをリセット
                 conclusionInputField.text = "";        
                 
-                ReassignGroup(myGroupKey);
+                //ReassignGroup(myGroupKey);
             }
         }
         else

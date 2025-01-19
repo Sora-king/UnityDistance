@@ -16,7 +16,7 @@ public class ChatOutputHandler : MonoBehaviour
         chatGPTCommunicator.ReplyReceived -= DisplayReply;
     }
 
-    private void DisplayReply(string reply)
+    private void DisplayReply(string reply, bool mode)
     {
         chatOutputText.text += $"\nChatGPT: {reply}";
     }

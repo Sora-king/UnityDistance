@@ -18,7 +18,7 @@ public class ChatGPTCommunicator : MonoBehaviour
     //[SerializeField] private string apiKey; // 正しいAPIキーを入力
     private string apiKey;
 
-    public delegate void OnReplyReceived(string reply);
+    public delegate void OnReplyReceived(string reply, bool mode);
     public event OnReplyReceived ReplyReceived;
 
     private string currentSystemContent;
@@ -41,8 +41,8 @@ public class ChatGPTCommunicator : MonoBehaviour
 ********";
 
 private string systemContentConclusionFilling = 
-@"与えられたJSONデータに基づき""question""の具体的な回答になるように""conclusion""を全て埋めてください。
-サブ議題の意図を読み取り、関連性を持つ情報を統合し、ChatGPTの知見を用いて最適な結論を推論してください
+@"与えられたJSONデータに基づき""question""の具体的な回答になるように""conclusion""を全て埋めてください。末端の""conclusion"" 変更しないでください。
+サブ議題の意図を読み取り、関連性を持つ情報を統合し、ChatGPTの知見を用いて最適な結論を推論してください。
 回答は以下の条件に基づき具体的かつ明確にしてください：
 1. 各""conclusion"" は、""question"" を解決または補完するために論理的かつ実用的な内容にする。
 2. サブ議題の例示が可能であれば、具体例を挙げて説明する。
@@ -123,11 +123,11 @@ private string systemContentConclusionFilling =
             Debug.LogError($"設定ファイルが見つかりません: {filePath}");
         }
 
-        ReplyReceived += (reply) =>
+        ReplyReceived += (reply, mode) =>
         {
             if (jsonHandler != null)
             {
-                jsonHandler.jsonhandlerstart(reply); // ChatGPTの出力をJsonHandlerに渡して実行
+                jsonHandler.jsonhandlerstart(reply, mode); // ChatGPTの出力をJsonHandlerに渡して実行
                 Debug.Log("ChatGPTの出力をJsonHandlerに渡しました。");
             }
             else
@@ -153,7 +153,7 @@ private string systemContentConclusionFilling =
             if (!string.IsNullOrEmpty(reply))
             {
                 Debug.Log($"ChatGPTからの返信: {reply}");
-                ReplyReceived?.Invoke(reply);
+                ReplyReceived?.Invoke(reply, mode);
             }
             else
             {

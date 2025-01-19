@@ -33,7 +33,7 @@ public class JsonHandler : MonoBehaviourPunCallbacks
     private int leafNodeCount; // 葉ノードの数
 
 
-    public void jsonhandlerstart(string jsonInput)
+    public void jsonhandlerstart(string jsonInput, bool mode)
     {
         mastarflag = true;
 
@@ -48,6 +48,10 @@ public class JsonHandler : MonoBehaviourPunCallbacks
         //customProperties["jsonData"] = jsonInput;
         PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { "jsonData", jsonInput } });
         Debug.Log("Node data shared: ");
+
+        if(!mode){
+            return;
+        }
 
         Debug.Log($"Input JSON: {jsonInput}");
         // JSONデータをC#オブジェクトに変換

@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 6509765558071487343}
   - component: {fileID: 3472797318898955237}
   - component: {fileID: 5352794622456738041}
+  - component: {fileID: 8308044729107259172}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Player
@@ -690,3 +691,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseRadius: 5
   groupSpacing: 15
+--- !u!114 &8308044729107259172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027452683471922017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53458338de623f45a73669644f2c46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recorder: {fileID: 0}
+  punVoiceClient: {fileID: 0}
