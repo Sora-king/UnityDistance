@@ -23,6 +23,16 @@ public class AnnouncementButton : MonoBehaviourPun
 
         UpdateLocalPlayerInCustomProperties(is3D);
 
+        InterestGroupChatManager InterestGroupChatManager = FindObjectOfType<InterestGroupChatManager>();
+                if (InterestGroupChatManager != null)
+                {
+                    InterestGroupChatManager.SetInterestGroup(is3D);
+                }
+                else
+                {
+                    Debug.LogError("InterestGroupChatManagerが見つかりませんでした。");
+                }
+
     }
 
     private PhotonView GetLocalPlayerPhotonView()

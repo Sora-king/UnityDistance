@@ -50,6 +50,29 @@ public class InterestGroupChatManager : MonoBehaviourPunCallbacks
         Debug.Log("Recorder を取得しました！");
     }
 
+    public void SetInterestGroup(bool is3D)
+    {
+        if (string.IsNullOrEmpty(currentGroup)) return;
+        
+        if (recorder == null)
+        {
+            Debug.LogError("Recorder が設定されていません。");
+            return;
+        }
+
+        if (is3D)
+        {
+            recorder.InterestGroup = 0; // 全員送信
+            Debug.Log("InterestGroup を全員送信 (0) に設定しました。");
+        }
+        else
+        {
+            byte interestGroup = GetInterestGroupFromSuffix(currentGroup);
+            recorder.InterestGroup = interestGroup; // 指定グループに送信
+            Debug.Log($"InterestGroup をグループ {interestGroup} に設定しました。");
+        }
+    }
+
     /// <summary>
     /// グループ設定を更新（送信と受信の InterestGroup を設定）
     /// </summary>

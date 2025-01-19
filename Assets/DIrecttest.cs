@@ -14,6 +14,7 @@ public class Directiontest : MonoBehaviourPunCallbacks
     public float angleThreshold = 30f; // 正面方向の角度閾値（±30度）
     public float defaultVolume = 0.1f; // 正面以外の音量
     public float maxVolume = 1.0f; // 正面方向の音量
+    bool flag = false;
 
     List<Player> announce_playerList = new List<Player>();
 
@@ -51,9 +52,11 @@ public class Directiontest : MonoBehaviourPunCallbacks
             Debug.Log("【デバッグ】自分のアバターがまだ設定されていません。");
             return;
         }
+        if(flag) return;
         if(photonView.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
         {
             Debug.Log("他人");
+            flag = true;
             return;
         }
         // 他のプレイヤーの音量を毎フレーム調整
